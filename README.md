@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# KR Pharma
 
-## Getting Started
+KR Pharma เป็นแอปพลิเคชันอีคอมเมิร์ซสำหรับร้านขายยาออนไลน์ พัฒนาด้วย Next.js 15, TailwindCSS v4, และ shadcn/ui ซึ่งรองรับการใช้งาน 2 รูปแบบ:
 
-First, run the development server:
+1. เว็บแอปพลิเคชัน (Web App)
+2. LINE LIFF (LINE Front-end Framework)
+
+## คุณสมบัติ
+
+- การยืนยันตัวตนด้วย Email และรหัสผ่าน (NextAuth v5)
+- การยืนยันตัวตนผ่าน LINE
+- การแสดงรายการสินค้า
+- การค้นหาและกรองสินค้า
+- ระบบตะกร้าสินค้า
+- ระบบสั่งซื้อสินค้า
+- ประวัติการสั่งซื้อ
+- โปรไฟล์ผู้ใช้งาน
+
+## โครงสร้างโปรเจค
+
+- `src/app/(web)` - เว็บแอปพลิเคชัน
+- `src/app/(line)` - LINE LIFF แอปพลิเคชัน
+- `src/app/api` - API endpoints
+- `src/components` - Reusable components
+- `src/lib` - Utility functions และ shared logic
+  - `src/lib/auth.ts` - การตั้งค่า NextAuth v5
+- `src/hooks` - React hooks
+  - `src/hooks/useAuth.ts` - Custom hook สำหรับ auth
+  - `src/hooks/useLiff.ts` - Custom hook สำหรับ LINE LIFF
+- `src/types` - TypeScript types
+- `src/middleware.ts` - Middleware สำหรับป้องกันหน้าที่ต้องเข้าสู่ระบบ
+
+## การติดตั้ง
+
+1. โคลนโปรเจค:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/krpharma.git
+cd krpharma
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. ติดตั้ง dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. สร้างไฟล์ `.env.local` และกำหนดค่าตัวแปรสภาพแวดล้อม:
 
-## Learn More
+```
+# API URL
+NEXT_PUBLIC_API_URL=http://localhost:3000
 
-To learn more about Next.js, take a look at the following resources:
+# LINE LIFF
+NEXT_PUBLIC_LIFF_ID=your-liff-id-here
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# LINE Channel
+LINE_CHANNEL_ID=your-channel-id-here
+LINE_CHANNEL_SECRET=your-channel-secret-here
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret-here
+```
 
-## Deploy on Vercel
+4. เริ่มการพัฒนา:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+แอปพลิเคชันจะทำงานที่ `http://localhost:3000`
+
+## การใช้งาน NextAuth v5
+
+โปรเจคนี้ใช้ NextAuth v5 สำหรับการจัดการการยืนยันตัวตน โดยมีการตั้งค่าหลักใน `src/lib/auth.ts` โดยรองรับ:
+
+- การเข้าสู่ระบบด้วย Credentials (email/password)
+- การเข้าสู่ระบบด้วย JWT
+- Middleware สำหรับป้องกันหน้าที่ต้องเข้าสู่ระบบ
+- Type safety เต็มรูปแบบด้วย TypeScript
+
+### บัญชีทดสอบ
+
+- อีเมล: test@example.com
+- รหัสผ่าน: password
+
+## การสร้าง LIFF App
+
+1. สร้าง LINE LIFF App ได้ที่ [LINE Developer Console](https://developers.line.biz/)
+2. ดำเนินการตามขั้นตอนการสร้าง LIFF App และคัดลอก LIFF ID มากำหนดใน `.env.local`
+3. กำหนด Endpoint URL เป็น `http://localhost:3000/liff` สำหรับการพัฒนา
+
+## การปรับใช้งาน (Deployment)
+
+1. สร้างเวอร์ชันการผลิต:
+
+```bash
+pnpm build
+```
+
+2. เริ่มใช้งานเวอร์ชันการผลิต:
+
+```bash
+pnpm start
+```
+
+## เทคโนโลยีที่ใช้
+
+- [Next.js 15](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS v4](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [NextAuth v5](https://next-auth.js.org/)
+- [LINE LIFF SDK](https://developers.line.biz/en/docs/liff/)
